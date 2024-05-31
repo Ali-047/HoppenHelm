@@ -5,20 +5,16 @@ import javafx.animation.KeyValue;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class HelloApplication extends Application {
@@ -30,7 +26,6 @@ public class HelloApplication extends Application {
     private ArrayList<Rectangle> rectangles;
     private static final double SHIFT_AMOUNT = 50;
     private Button runBtn ;
-
     private boolean flag = false ;
     private int damageNum = 0 ;
 
@@ -80,10 +75,10 @@ public class HelloApplication extends Application {
         runBtn = new Button("");
         runBtn.setPrefWidth(100);
         runBtn.setPrefHeight(100);
-        runBtn.setLayoutX(200);
+        runBtn.setLayoutX(100);
         runBtn.setLayoutY(600);
 
-        //Button event
+        //runButton event
         runBtn.setOnMouseClicked(event -> {
 
             if (boxPane.getChildren().indexOf(enemyBox) < 5)
@@ -118,8 +113,22 @@ public class HelloApplication extends Application {
             }
         });
 
+        //create attack button
+        Button attackBtn = new Button("");
+        attackBtn.setPrefWidth(100);
+        attackBtn.setPrefHeight(100);
+        attackBtn.setLayoutX(300);
+        attackBtn.setLayoutY(600);
+
+        //attack button event
+        attackBtn.setOnMouseClicked(event -> {
+
+            if (boxPane.getChildren().indexOf(enemyBox) == 5 || boxPane.getChildren().indexOf(enemyBox) == 4)
+                attackButton();
+        });
+
         //show screen
-        Group group = new Group(backGround , heartPane, player , root , boxPane , runBtn ) ;
+        Group group = new Group(backGround , heartPane, player , root , boxPane , runBtn , attackBtn) ;
         Scene scene = new Scene(group ,500, 700);
         stage.setTitle("Hoppenhelm!");
         stage.setScene(scene);
@@ -181,9 +190,16 @@ public class HelloApplication extends Application {
         ImagePattern newBoxImagePattern = new ImagePattern(newBox) ;
         enemyBox.setFill(newBoxImagePattern);
 
+        Rectangle enemyGroundBox = new Rectangle(500 , 350 , 50, 50);
+        Image enemyGround = new Image("F:\\projects\\ground\\demo\\src\\main\\resources\\images\\brick2.png") ;
+        ImagePattern enemyGroundImagePattern = new ImagePattern(enemyGround) ;
+        enemyGroundBox.setFill(enemyGroundImagePattern);
+
         // Add the new rectangle to the pane and list
         boxPane.getChildren().add(enemyBox);
         rectangles.add(enemyBox);
+        boxPane.getChildren().add(enemyGroundBox);
+        rectangles.add(enemyGroundBox);
 
         // Shift existing rectangles to the left
         for (Rectangle rect : rectangles) {
@@ -192,6 +208,21 @@ public class HelloApplication extends Application {
 
         //disable run button
         runBtn.setDisable(false);
+    }
+
+    //attack button event
+    public void attackButton(){
+
+        if (boxPane.getChildren().indexOf(enemyBox) == 5){
+
+            boxPane.getChildren().remove(5);
+            flag = false ;
+        }
+        else if (boxPane.getChildren().indexOf(enemyBox) == 4) {
+
+            boxPane.getChildren().remove(4);
+            flag = false ;
+        }
     }
 
     //show gameOver screen & stop the game
