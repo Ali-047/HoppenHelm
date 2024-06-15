@@ -9,7 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -26,6 +26,7 @@ public class HelloApplication extends Application {
     private ArrayList<Rectangle> rectangles;
     private static final double SHIFT_AMOUNT = 50;
     private Button runBtn ;
+    private Button attackBtn ;
     private boolean flag = false ;
     private int damageNum = 0 ;
 
@@ -75,8 +76,15 @@ public class HelloApplication extends Application {
         runBtn = new Button("");
         runBtn.setPrefWidth(100);
         runBtn.setPrefHeight(100);
-        runBtn.setLayoutX(100);
-        runBtn.setLayoutY(600);
+        runBtn.setLayoutX(125);
+        runBtn.setLayoutY(580);
+
+        //run button background
+        Image runBtnImage = new Image("F:\\projects\\ground\\demo\\src\\main\\resources\\images\\run.png");
+        BackgroundImage runBtnBgImage = new BackgroundImage(runBtnImage , BackgroundRepeat.NO_REPEAT , BackgroundRepeat.NO_REPEAT , BackgroundPosition.CENTER , BackgroundSize.DEFAULT);
+        Background background = new Background(runBtnBgImage) ;
+        runBtn.setBackground(background);
+
 
         //runButton event
         runBtn.setOnMouseClicked(event -> {
@@ -114,11 +122,17 @@ public class HelloApplication extends Application {
         });
 
         //create attack button
-        Button attackBtn = new Button("");
+        attackBtn = new Button("");
         attackBtn.setPrefWidth(100);
         attackBtn.setPrefHeight(100);
-        attackBtn.setLayoutX(300);
-        attackBtn.setLayoutY(600);
+        attackBtn.setLayoutX(275);
+        attackBtn.setLayoutY(580);
+
+        //attack button background
+        Image attackBtnImage = new Image("F:\\projects\\ground\\demo\\src\\main\\resources\\images\\attack.png");
+        BackgroundImage attackBtnBgImage = new BackgroundImage(attackBtnImage , BackgroundRepeat.NO_REPEAT , BackgroundRepeat.NO_REPEAT , BackgroundPosition.CENTER , BackgroundSize.DEFAULT);
+        Background attackBackground = new Background(attackBtnBgImage) ;
+        attackBtn.setBackground(attackBackground);
 
         //attack button event
         attackBtn.setOnMouseClicked(event -> {
@@ -230,7 +244,9 @@ public class HelloApplication extends Application {
 
         //make gameOver screen
         Rectangle gameOver = new Rectangle(500 , 700) ;
-        gameOver.setFill(Color.RED);
+        Image gameOverBg = new Image("F:\\projects\\ground\\demo\\src\\main\\resources\\images\\gameover.png");
+        ImagePattern gameOverImagePattern = new ImagePattern(gameOverBg) ;
+        gameOver.setFill(gameOverImagePattern);
 
         //show gameOver screen & stop the game
         Group GameOver = new Group(gameOver) ;
@@ -240,6 +256,7 @@ public class HelloApplication extends Application {
         stage.setScene(gameOverScreen);
         stage.show();
         runBtn.setDisable(true);
+        attackBtn.setDisable(true);
     }
 
     //main function
